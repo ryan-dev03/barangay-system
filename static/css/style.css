@@ -5,11 +5,7 @@ body {
   color: #333;
 }
 
-/* =========================================
-   SHARED COMPONENTS
-========================================= */
-
-/* Logo area (used in login, register, member forms) */
+/* Logo  */
 .logo-area {
   text-align: center;
   margin-bottom: 28px;
@@ -35,7 +31,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* Status badges (shared across admin dashboard & mysubmissions) */
+/* Status badges */
 .status-badge {
   font-size: 11px;
   padding: 3px 10px;
@@ -52,7 +48,7 @@ body {
 .status-reported     { background: #fce8e6; color: #c62828; }
 .status-responding   { background: #fff3e0; color: #e65100; }
 
-/* Record card shared pieces (admin dashboard) */
+/* Record card */
 .record-top {
   display: flex;
   justify-content: space-between;
@@ -72,7 +68,7 @@ body {
   font-size: 14px;
 }
 
-/* Unit accordion (admin dashboard) */
+/* Unit */
 .unit-count {
   font-size: 12px;
   font-weight: 600;
@@ -81,10 +77,6 @@ body {
 .unit-body         { display: none; padding: 10px 0 0; }
 .unit-body.open    { display: block; }
 
-/* =========================================
-   MODERN SPLIT LOGIN PAGE
-   (member/login, member/register, admin/login)
-========================================= */
 body.split-login {
   margin: 0;
   padding: 0;
@@ -221,7 +213,7 @@ body.split-login {
   margin-bottom: 20px;
 }
 
-/* Mobile — collapse to single glass card */
+/* Mobile view */
 @media screen and (max-width: 900px) {
   body.split-login {
     overflow-y: auto;
@@ -252,10 +244,6 @@ body.split-login {
   .login-form-side .logo-area h1 { font-size: 28px; }
 }
 
-/* =========================================
-   MODERN MEMBER HOME
-   (member/home)
-========================================= */
 body.member-home {
   min-height: 100vh;
   background:
@@ -359,7 +347,7 @@ body.member-home {
   font-size: 14px;
   line-height: 1.5;
 }
-/* Last card (4th) centers itself in a 3-col grid */
+
 .member-menu .member-card:last-child { grid-column: 2 / 3; }
 
 /* Emergency card accent */
@@ -387,11 +375,7 @@ body.member-home {
   .member-menu .member-card:last-child { grid-column: auto; }
 }
 
-/* =========================================
-   MEMBER FORM PAGES
-   (request_file, complaint, emergency,
-    mysubmissions)
-========================================= */
+/* MEMBER FORM PAGES */
 body.member-form-page {
   min-height: 100vh;
   background:
@@ -406,7 +390,7 @@ body.member-form-page {
   overflow-x: hidden;
 }
 
-/* Emergency page tints the overlay red */
+/* Emergency */
 body.member-form-page.emergency-page {
   background:
     linear-gradient(rgba(80,0,0,0.55), rgba(0,0,0,0.80)),
@@ -564,9 +548,7 @@ body.member-form-page.emergency-page {
 .mf-btn-emergency { border-color: rgba(255,80,80,0.5); color: #ff9090; }
 .mf-btn-emergency:hover { background: #e53935; border-color: #e53935; color: white; }
 
-/* =========================================
-   MY SUBMISSIONS PAGE
-========================================= */
+/* MY SUBMISSIONS PAGE */
 
 /* Filter tabs */
 .mf-tabs {
@@ -616,8 +598,7 @@ body.member-form-page.emergency-page {
   font-weight: 600;
   width: fit-content;
 }
-/* s[0] values: "File Request", "Complaint", "Emergency"
-   after |lower|replace(' ','') → filerequest, complaint, emergency */
+
 .sub-filerequest {
   background: rgba(26,115,232,0.2);
   color: #7ab4ff;
@@ -643,7 +624,7 @@ body.member-form-page.emergency-page {
 .mf-empty p    { font-size: 16px; color: #888; margin-bottom: 8px; }
 .mf-empty span { font-size: 13px; color: #555; }
 
-/* Mobile — form pages */
+/* Mobile form pages */
 @media screen and (max-width: 700px) {
   .mf-header { flex-direction: column; gap: 16px; }
   .mf-back   { align-self: flex-start; }
@@ -652,10 +633,7 @@ body.member-form-page.emergency-page {
   .mf-card-icon  { font-size: 34px; }
 }
 
-/* =========================================
-   MODERN ADMIN DASHBOARD
-   (admin/dashboard)
-========================================= */
+/* (admin/dashboard) */
 body.admin { background: #f5f6fa; min-height: 100vh; }
 
 body.modern-admin {
@@ -758,7 +736,6 @@ body.modern-admin.light-mode .logout-btn {
 }
 .modern-badge.red { background: #451111; color: #ff6a6a; }
 
-/* Accordion */
 .modern-accordion { margin-bottom: 18px; }
 .modern-unit-header {
   background: linear-gradient(to right, #3d3210, #1b1b1b);
@@ -815,10 +792,7 @@ body.modern-admin.light-mode .logout-btn {
   .modern-tabs   { overflow-x: auto; white-space: nowrap; }
 }
 
-/* =========================================
-   ADMIN QR CODES PAGE
-   (admin/qrcodes)
-========================================= */
+/* (admin/qrcodes) */
 .qr-page-title { margin-bottom: 30px; }
 .qr-page-title h2 { color: #d6b04c; font-size: 22px; margin-bottom: 4px; }
 .qr-page-title p  { color: #777; font-size: 13px; }
@@ -855,7 +829,7 @@ body.modern-admin.light-mode .logout-btn {
 }
 .qr-img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-/* Unit label pill overlaid at bottom of QR */
+/* Unit label */
 .qr-unit-overlay {
   position: absolute;
   bottom: -14px;
