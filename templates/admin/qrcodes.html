@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Codes</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="admin modern-admin">
+<div class="admin-wrap">
+
+  <!-- HEADER -->
+  <div class="modern-header">
+    <div class="header-left">
+      <h1>Barangay Management System</h1>
+    </div>
+    <div class="header-actions">
+      <a href="/admin/dashboard" class="qr-btn">← Dashboard</a>
+      <button class="theme-btn" onclick="toggleTheme()">☀</button>
+      <a href="/admin/logout" class="logout-btn">Logout</a>
+    </div>
+  </div>
+
+  <!-- PAGE TITLE -->
+  <div class="qr-page-title">
+    <h2>QR Codes</h2>
+    <p>Scan the QR code for each house unit to access the resident portal</p>
+  </div>
+
+  <!-- QR GRID — hardcoded 3 units -->
+  <div class="qr-grid">
+
+    <!-- HU-001 -->
+    <div class="qr-card">
+      <div class="qr-image-wrap">
+        <img src="/static/qr/HU-001.png" alt="QR Code HU-001" class="qr-img">
+        <div class="qr-unit-overlay">HU-001</div>
+      </div>
+      <div class="qr-scan-text">Scan to access your portal</div>
+      <a href="/static/qr/HU-001.png" download="qr_HU-001.png" class="qr-download-btn">
+        ↓ Download
+      </a>
+    </div>
+
+    <!-- HU-002 -->
+    <div class="qr-card">
+      <div class="qr-image-wrap">
+        <img src="/static/qr/HU-002.png" alt="QR Code HU-002" class="qr-img">
+        <div class="qr-unit-overlay">HU-002</div>
+      </div>
+      <div class="qr-scan-text">Scan to access your portal</div>
+      <a href="/static/qr/HU-002.png" download="qr_HU-002.png" class="qr-download-btn">
+        ↓ Download
+      </a>
+    </div>
+
+    <!-- HU-003 -->
+    <div class="qr-card">
+      <div class="qr-image-wrap">
+        <img src="/static/qr/HU-003.png" alt="QR Code HU-003" class="qr-img">
+        <div class="qr-unit-overlay">HU-003</div>
+      </div>
+      <div class="qr-scan-text">Scan to access your portal</div>
+      <a href="/static/qr/HU-003.png" download="qr_HU-003.png" class="qr-download-btn">
+        ↓ Download
+      </a>
+    </div>
+
+  </div>
+
+  <!-- PRINT BUTTON -->
+  <div class="qr-print-row no-print">
+    <button onclick="window.print()" class="qr-print-btn">
+      🖨 Print All QR Codes
+    </button>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+}
+</script>
+</body>
+</html>

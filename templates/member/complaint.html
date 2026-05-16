@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>File Complaint</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="member-form-page">
+  <div class="member-overlay"></div>
+  <div class="member-form-wrapper">
+
+    <div class="mf-header">
+      <div class="logo-area">
+        <h1>Barangay Portal</h1>
+        <p>Complaint Form</p>
+      </div>
+      <a href="/home" class="mf-back">← Back</a>
+    </div>
+
+    <div class="mf-card">
+      <div class="mf-card-title">
+        <span class="mf-card-icon">⚠️</span>
+        <div>
+          <h2>File a Complaint</h2>
+          <p>Submit concerns and reports to the barangay</p>
+        </div>
+      </div>
+
+      {% if error %}
+        <div class="mf-alert">{{ error }}</div>
+      {% endif %}
+      {% if success %}
+        <div class="mf-success">{{ success }}</div>
+      {% endif %}
+
+      <form method="POST" action="/complaint" class="mf-form">
+        <div class="mf-field">
+          <label>Complaint Type</label>
+          <select name="complaint_type" required>
+            <option value="" disabled selected>Select complaint type</option>
+            <option value="Noise Complaint">Noise Complaint</option>
+            <option value="Illegal Parking">Illegal Parking</option>
+            <option value="Garbage Disposal">Garbage Disposal</option>
+            <option value="Neighbor Dispute">Neighbor Dispute</option>
+            <option value="Infrastructure Issue">Infrastructure Issue</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="mf-field">
+          <label>Description</label>
+          <textarea name="description" placeholder="Describe your complaint in detail..." required></textarea>
+        </div>
+
+        <button type="submit" class="mf-btn">
+          → Submit Complaint
+        </button>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>

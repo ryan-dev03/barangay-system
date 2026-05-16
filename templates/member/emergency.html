@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report Emergency</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="member-form-page emergency-page">
+  <div class="member-overlay"></div>
+  <div class="member-form-wrapper">
+
+    <div class="mf-header">
+      <div class="logo-area">
+        <h1>Barangay Portal</h1>
+        <p>Emergency Report</p>
+      </div>
+      <a href="/home" class="mf-back">← Back</a>
+    </div>
+
+    <div class="mf-card mf-card-emergency">
+      <div class="mf-emergency-banner">
+        🚨 EMERGENCY REPORT — Barangay responders will be notified immediately
+      </div>
+
+      <div class="mf-card-title">
+        <span class="mf-card-icon">🚨</span>
+        <div>
+          <h2>Report Emergency</h2>
+          <p>Send urgent reports to barangay emergency response</p>
+        </div>
+      </div>
+
+      {% if error %}
+        <div class="mf-alert">{{ error }}</div>
+      {% endif %}
+      {% if success %}
+        <div class="mf-success">{{ success }}</div>
+      {% endif %}
+
+      <form method="POST" action="/emergency" class="mf-form">
+        <div class="mf-field">
+          <label>Emergency Type</label>
+          <select name="emergency_type" required>
+            <option value="" disabled selected>Select emergency type</option>
+            <option value="Fire">Fire</option>
+            <option value="Medical Emergency">Medical Emergency</option>
+            <option value="Crime / Security Threat">Crime / Security Threat</option>
+            <option value="Flooding">Flooding</option>
+            <option value="Accident">Accident</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="mf-field">
+          <label>Description</label>
+          <textarea name="description" placeholder="Describe what is happening right now..." required></textarea>
+        </div>
+
+        <div class="mf-field">
+          <label>Location</label>
+          <input type="text" name="location" placeholder="Street, landmark, or exact address" required>
+        </div>
+
+        <div class="mf-field">
+          <label>Number of People Involved</label>
+          <input type="number" name="people_involved" placeholder="Approximate number (optional)" min="0">
+        </div>
+
+        <button type="submit" class="mf-btn mf-btn-emergency">
+          🚨 Send Emergency Report
+        </button>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>

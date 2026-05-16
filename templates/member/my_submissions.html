@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Submissions</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="member-form-page">
+  <div class="member-overlay"></div>
+  <div class="member-form-wrapper">
+
+    <div class="mf-header">
+      <div class="logo-area">
+        <h1>Barangay Portal</h1>
+        <p>My Submissions</p>
+      </div>
+      <a href="/home" class="mf-back">← Back</a>
+    </div>
+
+    <!-- FILTER TABS -->
+    <div class="mf-tabs">
+      <button class="mf-tab active" onclick="filterTab('all', this)">All</button>
+      <button class="mf-tab" onclick="filterTab('File Request', this)">📄 File Requests</button>
+      <button class="mf-tab" onclick="filterTab('Complaint', this)">⚠️ Complaints</button>
+      <button class="mf-tab mf-tab-emergency" onclick="filterTab('Emergency', this)">🚨 Emergencies</button>
+    </div>
+
+    <!-- SUBMISSIONS LIST -->
+    <div class="mf-submissions-list">
+
+      {% if submissions %}
+        {% for s in submissions %}
+        <div class="mf-sub-card" data-type="{{ s[0] }}">
+          <div class="mf-sub-top">
+            <div class="mf-sub-left">
+              <span class="mf-sub-badge sub-{{ s[0]|lower|replace(' ','') }}">
+                {% if s[0] == 'File Request' %}📄 File Request
+                {% elif s[0] == 'Complaint' %}⚠️ Complaint
+                {% else %}🚨 Emergency{% endif %}
+              </span>
+              <div class="mf-sub-title">{{ s[1] }}</div>
+            </div>
+            <span class="status-badge status-{{ s[2]|lower|replace(' ','') }}">
+              {{ s[2] }}
+            </span>
+          </div>
+          <div class="mf-sub-time">{{ s[3] }}</div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="mf-empty">
+          <div class="mf-empty-icon">📭</div>
+          <p>No submissions yet.</p>
+          <span>Your requests, complaints, and emergency reports will appear here.</span>
+        </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <script>
+    function filterTab(type, btn) {
+      document.querySelectorAll('.mf-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.mf-sub-card').forEach(card => {
+        if (type === 'all' || card.dataset.type === type) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

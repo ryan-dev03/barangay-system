@@ -1,0 +1,939 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+}
+
+/* =========================================
+   SHARED COMPONENTS
+========================================= */
+
+/* Logo area (used in login, register, member forms) */
+.logo-area {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.logo-area h1 {
+  font-size: 22px;
+  color: #1a73e8;
+  font-weight: 700;
+}
+.logo-area p {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Alerts */
+.alert {
+  background: #fce8e6;
+  color: #c62828;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* Status badges (shared across admin dashboard & mysubmissions) */
+.status-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+.status-pending      { background: #fff8e1; color: #f57f17; }
+.status-inprogress   { background: #e3f2fd; color: #1565c0; }
+.status-ready        { background: #e8f5e9; color: #2e7d32; }
+.status-completed    { background: #f1f8e9; color: #558b2f; }
+.status-received     { background: #fff8e1; color: #f57f17; }
+.status-underreview  { background: #e3f2fd; color: #1565c0; }
+.status-resolved     { background: #e8f5e9; color: #2e7d32; }
+.status-reported     { background: #fce8e6; color: #c62828; }
+.status-responding   { background: #fff3e0; color: #e65100; }
+
+/* Record card shared pieces (admin dashboard) */
+.record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.record-name   { font-weight: 600; font-size: 14px; }
+.record-type   { font-size: 14px; color: #333; margin-bottom: 4px; }
+.emergency-type { color: #e53935; font-weight: 600; }
+.record-detail { font-size: 13px; color: #666; margin-bottom: 2px; }
+.record-time   { font-size: 11px; color: #aaa; margin-top: 6px; }
+
+.empty {
+  text-align: center;
+  color: #aaa;
+  padding: 40px;
+  font-size: 14px;
+}
+
+/* Unit accordion (admin dashboard) */
+.unit-count {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+.unit-body         { display: none; padding: 10px 0 0; }
+.unit-body.open    { display: block; }
+
+/* =========================================
+   MODERN SPLIT LOGIN PAGE
+   (member/login, member/register, admin/login)
+========================================= */
+body.split-login {
+  margin: 0;
+  padding: 0;
+  background: #050816;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+.login-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* RIGHT IMAGE PANEL */
+.login-image {
+  width: 50%;
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.55)),
+    url('/static/images/road.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.image-overlay {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: brightness(0.8);
+}
+
+/* LEFT FORM PANEL */
+.login-form-side {
+  width: 50%;
+  background: #070b1d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+}
+.login-form-side .logo-area {
+  margin-bottom: 30px;
+  text-align: left;
+}
+.login-form-side .logo-area h1 {
+  color: #d6b04c;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.login-form-side .logo-area p {
+  color: #7d7d7d;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+/* Unit badge */
+.unit-box {
+  width: fit-content;
+  border: 1px solid #444;
+  border-radius: 30px;
+  padding: 12px 25px;
+  color: #d6b04c;
+  margin-bottom: 35px;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+/* Welcome heading */
+.welcome-text h2 {
+  color: white;
+  font-size: 58px;
+  margin-bottom: 10px;
+}
+.welcome-text h2 span { color: #d6b04c; }
+.welcome-text p {
+  color: #9a9a9a;
+  letter-spacing: 2px;
+  margin-bottom: 35px;
+}
+
+/* Login / Register form */
+.login-form { width: 100%; }
+.login-form input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #333;
+  color: white;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  font-size: 15px;
+  width: 100%;
+  transition: border .2s;
+}
+.login-form input::placeholder { color: #777; }
+.login-form input:focus {
+  outline: none;
+  border-color: #d6b04c;
+}
+.login-form button {
+  width: 100%;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #555;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.login-form button:hover {
+  background: #d6b04c;
+  color: black;
+  border-color: #d6b04c;
+}
+
+/* Register / back link */
+.register-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: #d6b04c;
+  text-decoration: none;
+  font-size: 14px;
+}
+.register-link:hover { text-decoration: underline; }
+
+/* Alert inside login form side */
+.login-form-side .alert {
+  background: rgba(255,0,0,0.12);
+  border: 1px solid rgba(255,0,0,0.3);
+  color: #ffb3b3;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* Mobile — collapse to single glass card */
+@media screen and (max-width: 900px) {
+  body.split-login {
+    overflow-y: auto;
+    background:
+      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)),
+      url('/static/images/road.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  .login-wrapper {
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .login-image { display: none; }
+  .login-form-side {
+    width: 90%;
+    min-height: auto;
+    padding: 35px 28px;
+    background: rgba(8,12,25,0.72);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    margin: 30px 0;
+  }
+  .welcome-text h2 { font-size: 42px; }
+  .login-form-side .logo-area h1 { font-size: 28px; }
+}
+
+/* =========================================
+   MODERN MEMBER HOME
+   (member/home)
+========================================= */
+body.member-home {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.70)),
+    url('/static/images/homebg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+.member-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(2px);
+}
+.member-home-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 50px 30px;
+}
+
+/* Top header */
+.member-top {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.member-top .logo-area { text-align: center; }
+.member-top .logo-area h1 {
+  color: #d6b04c;
+  font-size: 42px;
+  margin-bottom: 8px;
+}
+.member-top .logo-area p {
+  color: #c9c9c9;
+  font-size: 16px;
+}
+
+/* Logout button */
+.member-logout {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #d6b04c;
+  padding: 14px 22px;
+  border-radius: 14px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+.member-logout:hover { background: #d6b04c; color: black; }
+
+/* Menu grid */
+.member-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+.member-card {
+  background: rgba(15,15,15,0.72);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 24px;
+  padding: 28px;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+.member-card:hover {
+  transform: translateY(-5px);
+  border-color: #d6b04c;
+  background: rgba(25,25,25,0.85);
+}
+.member-card-icon {
+  font-size: 42px;
+  min-width: 60px;
+  text-align: center;
+}
+.member-card h3 {
+  color: #d6b04c;
+  margin-bottom: 8px;
+  font-size: 22px;
+}
+.member-card p {
+  color: #b8b8b8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+/* Last card (4th) centers itself in a 3-col grid */
+.member-menu .member-card:last-child { grid-column: 2 / 3; }
+
+/* Emergency card accent */
+.emergency-card-modern { border-color: rgba(255,80,80,0.25); }
+.emergency-card-modern:hover { border-color: #ff5f5f; }
+
+@media screen and (max-width: 900px) {
+  .member-home-wrapper { padding: 30px 20px; }
+  .member-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .member-top .logo-area h1 { font-size: 30px; }
+  .member-menu { grid-template-columns: 1fr; }
+  .member-card { padding: 22px; }
+  .member-card h3 { font-size: 20px; }
+  .member-logout {
+    position: static;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .member-menu .member-card:last-child { grid-column: auto; }
+}
+
+/* =========================================
+   MEMBER FORM PAGES
+   (request_file, complaint, emergency,
+    mysubmissions)
+========================================= */
+body.member-form-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.60), rgba(0,0,0,0.75)),
+    url('/static/images/homebg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Emergency page tints the overlay red */
+body.member-form-page.emergency-page {
+  background:
+    linear-gradient(rgba(80,0,0,0.55), rgba(0,0,0,0.80)),
+    url('/static/images/homebg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.member-form-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 50px 24px 60px;
+}
+
+/* Header row */
+.mf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+.mf-header .logo-area {
+  text-align: left;
+  margin-bottom: 0;
+}
+.mf-header .logo-area h1 {
+  color: #d6b04c;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.mf-header .logo-area p {
+  color: #9a9a9a;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.mf-back {
+  color: #d6b04c;
+  text-decoration: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 10px 18px;
+  border-radius: 12px;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+.mf-back:hover { background: #d6b04c; color: black; }
+
+/* Card */
+.mf-card {
+  background: rgba(10,10,20,0.78);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 24px;
+  padding: 36px;
+  backdrop-filter: blur(12px);
+}
+.mf-card-emergency { border-color: rgba(255,80,80,0.22); }
+
+/* Card title row */
+.mf-card-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.mf-card-icon { font-size: 42px; min-width: 56px; text-align: center; }
+.mf-card-title h2 { color: #d6b04c; font-size: 24px; margin-bottom: 4px; }
+.mf-card-title p  { color: #9a9a9a; font-size: 13px; }
+
+/* Emergency banner */
+.mf-emergency-banner {
+  background: rgba(200,0,0,0.18);
+  border: 1px solid rgba(255,80,80,0.35);
+  color: #ff9090;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* Form alerts */
+.mf-alert {
+  background: rgba(255,0,0,0.12);
+  border: 1px solid rgba(255,0,0,0.3);
+  color: #ffb3b3;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.mf-success {
+  background: rgba(0,200,80,0.10);
+  border: 1px solid rgba(0,200,80,0.25);
+  color: #80ffb0;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Form fields */
+.mf-form .mf-field { margin-bottom: 20px; }
+.mf-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b0b0b0;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.mf-form input,
+.mf-form select,
+.mf-form textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #333;
+  color: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 0;
+  font-size: 14px;
+  width: 100%;
+  font-family: inherit;
+  transition: border 0.2s;
+}
+.mf-form input::placeholder,
+.mf-form textarea::placeholder { color: #666; }
+.mf-form select option { background: #111; color: white; }
+.mf-form input:focus,
+.mf-form select:focus,
+.mf-form textarea:focus { outline: none; border-color: #d6b04c; }
+.mf-form textarea { min-height: 120px; resize: vertical; }
+
+/* Submit button */
+.mf-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #555;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: 0.3s;
+}
+.mf-btn:hover { background: #d6b04c; color: black; border-color: #d6b04c; }
+.mf-btn-emergency { border-color: rgba(255,80,80,0.5); color: #ff9090; }
+.mf-btn-emergency:hover { background: #e53935; border-color: #e53935; color: white; }
+
+/* =========================================
+   MY SUBMISSIONS PAGE
+========================================= */
+
+/* Filter tabs */
+.mf-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.mf-tab {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #aaa;
+  padding: 10px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.25s;
+}
+.mf-tab:hover { border-color: #d6b04c; color: #d6b04c; }
+.mf-tab.active { background: #d6b04c; color: black; border-color: #d6b04c; }
+.mf-tab-emergency.active { background: #e53935; border-color: #e53935; color: white; }
+
+/* Submission cards */
+.mf-submissions-list { display: flex; flex-direction: column; gap: 14px; }
+.mf-sub-card {
+  background: rgba(10,10,20,0.78);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 22px 24px;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s;
+}
+.mf-sub-card:hover { border-color: rgba(214,176,76,0.3); }
+.mf-sub-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.mf-sub-left { display: flex; flex-direction: column; gap: 6px; }
+.mf-sub-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 600;
+  width: fit-content;
+}
+/* s[0] values: "File Request", "Complaint", "Emergency"
+   after |lower|replace(' ','') → filerequest, complaint, emergency */
+.sub-filerequest {
+  background: rgba(26,115,232,0.2);
+  color: #7ab4ff;
+  border: 1px solid rgba(26,115,232,0.3);
+}
+.sub-complaint {
+  background: rgba(245,127,23,0.15);
+  color: #ffc87a;
+  border: 1px solid rgba(245,127,23,0.3);
+}
+.sub-emergency {
+  background: rgba(229,57,53,0.15);
+  color: #ff8a80;
+  border: 1px solid rgba(229,57,53,0.3);
+}
+.mf-sub-title  { font-size: 15px; font-weight: 600; color: white; }
+.mf-sub-detail { font-size: 13px; color: #9a9a9a; margin-bottom: 8px; line-height: 1.5; }
+.mf-sub-time   { font-size: 11px; color: #555; margin-top: 6px; }
+
+/* Empty state */
+.mf-empty { text-align: center; padding: 60px 20px; color: #555; }
+.mf-empty-icon { font-size: 52px; margin-bottom: 16px; }
+.mf-empty p    { font-size: 16px; color: #888; margin-bottom: 8px; }
+.mf-empty span { font-size: 13px; color: #555; }
+
+/* Mobile — form pages */
+@media screen and (max-width: 700px) {
+  .mf-header { flex-direction: column; gap: 16px; }
+  .mf-back   { align-self: flex-start; }
+  .mf-card   { padding: 24px 18px; }
+  .mf-card-title { gap: 14px; }
+  .mf-card-icon  { font-size: 34px; }
+}
+
+/* =========================================
+   MODERN ADMIN DASHBOARD
+   (admin/dashboard)
+========================================= */
+body.admin { background: #f5f6fa; min-height: 100vh; }
+
+body.modern-admin {
+  background: #050505;
+  color: white;
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+body.modern-admin.light-mode {
+  background: #f2f2f2;
+  color: #111;
+}
+
+/* Light mode overrides */
+body.modern-admin.light-mode .modern-header {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+body.modern-admin.light-mode .modern-header h1 { color: #9b7a17; }
+body.modern-admin.light-mode .modern-tab       { color: #666; }
+body.modern-admin.light-mode .modern-tab.active {
+  color: #9b7a17;
+  border-color: #9b7a17;
+}
+body.modern-admin.light-mode .modern-card {
+  background: white;
+  color: #111;
+  border: 1px solid #ddd;
+}
+body.modern-admin.light-mode .record-type,
+body.modern-admin.light-mode .record-detail,
+body.modern-admin.light-mode .record-time { color: #444; }
+body.modern-admin.light-mode .modern-unit-header {
+  background: linear-gradient(to right, #e7d6a3, #ffffff);
+  color: #111;
+}
+body.modern-admin.light-mode .modern-form select {
+  background: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+body.modern-admin.light-mode .qr-btn,
+body.modern-admin.light-mode .theme-btn,
+body.modern-admin.light-mode .logout-btn {
+  background: white;
+  color: #9b7a17;
+  border: 1px solid #ccc;
+}
+
+/* Admin wrap */
+.admin-wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+
+/* Header */
+.modern-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.modern-header h1 { color: #d6b04c; font-size: 28px; }
+.header-actions   { display: flex; gap: 12px; align-items: center; }
+
+.qr-btn, .theme-btn, .logout-btn {
+  background: #1a1a1a;
+  color: #d6b04c;
+  border: 1px solid #333;
+  padding: 12px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .3s;
+}
+.qr-btn:hover, .theme-btn:hover, .logout-btn:hover {
+  background: #d6b04c;
+  color: black;
+}
+
+/* Tabs */
+.modern-tabs { display: flex; gap: 14px; margin-bottom: 24px; }
+.modern-tab {
+  background: transparent;
+  color: #aaa;
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  font-weight: bold;
+  font-size: 14px;
+}
+.modern-tab.active { color: #d6b04c; border-color: #d6b04c; }
+
+.modern-badge {
+  background: #222;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: 8px;
+  font-size: 12px;
+}
+.modern-badge.red { background: #451111; color: #ff6a6a; }
+
+/* Accordion */
+.modern-accordion { margin-bottom: 18px; }
+.modern-unit-header {
+  background: linear-gradient(to right, #3d3210, #1b1b1b);
+  padding: 18px 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.emergency-header        { background: linear-gradient(to right, #3d1010, #1b1b1b); }
+
+/* Cards */
+.modern-card {
+  background: #121212;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 22px;
+  margin-top: 14px;
+}
+
+/* Form inside card */
+.modern-form { margin-top: 18px; }
+.modern-form select {
+  background: #1f1f1f;
+  color: white;
+  border: 1px solid #333;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 14px;
+  font-family: inherit;
+}
+.modern-form button {
+  background: #d6b04c;
+  color: black;
+  border: none;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.modern-form button:hover { opacity: 0.9; }
+
+/* Tab content visibility */
+.tab-content        { display: none; }
+.tab-content.active { display: block; }
+
+@media screen and (max-width: 900px) {
+  .modern-header { flex-direction: column; gap: 20px; align-items: flex-start; }
+  .modern-tabs   { overflow-x: auto; white-space: nowrap; }
+}
+
+/* =========================================
+   ADMIN QR CODES PAGE
+   (admin/qrcodes)
+========================================= */
+.qr-page-title { margin-bottom: 30px; }
+.qr-page-title h2 { color: #d6b04c; font-size: 22px; margin-bottom: 4px; }
+.qr-page-title p  { color: #777; font-size: 13px; }
+
+.qr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+.qr-card {
+  background: #121212;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.2s;
+}
+.qr-card:hover { border-color: rgba(214,176,76,0.4); }
+
+/* QR image container */
+.qr-image-wrap {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* Unit label pill overlaid at bottom of QR */
+.qr-unit-overlay {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d6b04c;
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 4px 14px;
+  border-radius: 30px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.qr-scan-text {
+  font-size: 12px;
+  color: #555;
+  text-align: center;
+  margin-top: 6px;
+}
+
+.qr-download-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  background: transparent;
+  color: #d6b04c;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.qr-download-btn:hover { background: #d6b04c; color: black; border-color: #d6b04c; }
+
+/* Print button */
+.qr-print-row { text-align: center; margin-top: 36px; }
+.qr-print-btn {
+  padding: 14px 36px;
+  background: transparent;
+  color: #d6b04c;
+  border: 1px solid #555;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.qr-print-btn:hover { background: #d6b04c; color: black; border-color: #d6b04c; }
+
+/* Light mode — QR page */
+body.modern-admin.light-mode .qr-card       { background: white; border-color: #ddd; }
+body.modern-admin.light-mode .qr-scan-text  { color: #aaa; }
+body.modern-admin.light-mode .qr-page-title h2 { color: #9b7a17; }
+body.modern-admin.light-mode .qr-download-btn  { color: #9b7a17; border-color: #ccc; }
+body.modern-admin.light-mode .qr-download-btn:hover { background: #d6b04c; color: black; }
+body.modern-admin.light-mode .qr-print-btn      { color: #9b7a17; border-color: #ccc; }
+body.modern-admin.light-mode .qr-print-btn:hover { background: #d6b04c; color: black; }
+
+/* Print styles */
+@media print {
+  body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .admin-wrap { padding: 10px; }
+  .modern-header { display: none; }
+  .qr-card {
+    background: white !important;
+    border: 2px solid #333 !important;
+    break-inside: avoid;
+  }
+  .qr-unit-overlay { background: #000 !important; color: white !important; }
+  .qr-scan-text    { color: #333 !important; }
+}
+
+@media screen and (max-width: 700px) {
+  .qr-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}

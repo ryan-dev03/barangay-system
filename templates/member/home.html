@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="member-home">
+
+    <div class="member-overlay"></div>
+
+    <div class="member-home-wrapper">
+
+        <!-- TOP SECTION -->
+        <div class="member-top">
+
+            <div class="logo-area">
+                <h1>Barangay Portal</h1>
+                <p>
+                    Welcome,
+                    {{ session.get('member_name', 'Resident') }}
+                </p>
+            </div>
+        </div>
+
+        <!-- MAIN MENU -->
+        <div class="member-menu">
+
+            <a href="/request-file" class="member-card">
+                <div class="member-card-icon">📄</div>
+                <div>
+                    <h3>Request Files</h3>
+                    <p>Request barangay documents</p>
+                </div>
+            </a>
+
+            <a href="/complaint" class="member-card">
+                <div class="member-card-icon">⚠️</div>
+                <div>
+                    <h3>File Complaint</h3>
+                    <p>Submit concerns and reports</p>
+                </div>
+            </a>
+
+            <a href="/emergency" class="member-card emergency-card-modern">
+                <div class="member-card-icon">🚨</div>
+                <div>
+                    <h3>Report Emergency</h3>
+                    <p>Send urgent emergency reports</p>
+                </div>
+            </a>
+
+            <a href="/member/my-submissions" class="member-card">
+                <div class="member-card-icon">📂</div>
+                <div>
+                    <h3>My Submissions</h3>
+                    <p>Track your requests and reports</p>
+                </div>
+            </a>
+        </div>
+        <a href="/logout" class="member-logout">Log out</a>
+    </div>
+
+</body>
+</html>

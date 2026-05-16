@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request File</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="member-form-page">
+  <div class="member-overlay"></div>
+  <div class="member-form-wrapper">
+
+    <div class="mf-header">
+      <div class="logo-area">
+        <h1>Barangay Portal</h1>
+        <p>Document Request</p>
+      </div>
+      <a href="/home" class="mf-back">← Back</a>
+    </div>
+
+    <div class="mf-card">
+      <div class="mf-card-title">
+        <span class="mf-card-icon">📄</span>
+        <div>
+          <h2>Request Files</h2>
+          <p>Submit a barangay document request</p>
+        </div>
+      </div>
+
+      {% if error %}
+        <div class="mf-alert">{{ error }}</div>
+      {% endif %}
+      {% if success %}
+        <div class="mf-success">{{ success }}</div>
+      {% endif %}
+
+      <form method="POST" action="/request-file" class="mf-form">
+        <div class="mf-field">
+          <label>Document Type</label>
+          <select name="doc_type" required>
+            <option value="" disabled selected>Select document type</option>
+            <option value="Barangay Clearance">Barangay Clearance</option>
+            <option value="Certificate of Residency">Certificate of Residency</option>
+            <option value="Certificate of Indigency">Certificate of Indigency</option>
+            <option value="Business Permit">Business Permit</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="mf-field">
+          <label>Purpose / Details</label>
+          <textarea name="purpose" placeholder="State the purpose of your request..." required></textarea>
+        </div>
+
+        <div class="mf-field">
+          <label>Preferred Delivery Method</label>
+          <select name="delivery" required>
+            <option value="" disabled selected>Select delivery method</option>
+            <option value="Pick Up">Pick Up</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+        </div>
+
+        <button type="submit" class="mf-btn">
+          → Submit Request
+        </button>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+
+  <link rel="stylesheet" href="/static/css/style.css">
+
+  <meta http-equiv="refresh" content="30">
+</head>
+
+<body class="admin modern-admin">
+
+<div class="admin-wrap">
+
+  <!-- HEADER -->
+  <div class="modern-header">
+
+    <div class="header-left">
+      <h1>Barangay Management System</h1>
+    </div>
+
+    <div class="header-actions">
+
+      <a href="/admin/qrcodes" class="qr-btn">
+        QR Codes
+      </a>
+
+      <button class="theme-btn" onclick="toggleTheme()">
+        ☀
+      </button>
+
+      <a href="/admin/logout" class="logout-btn">
+        Logout
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- TABS -->
+
+  <div class="modern-tabs">
+
+    <button class="modern-tab active"
+            onclick="showTab('requests', this)">
+
+      File Requests
+      <span class="modern-badge">
+        {{ grouped_requests|length }}
+      </span>
+
+    </button>
+
+    <button class="modern-tab"
+            onclick="showTab('complaints', this)">
+
+      Complaints
+      <span class="modern-badge">
+        {{ grouped_complaints|length }}
+      </span>
+
+    </button>
+
+    <button class="modern-tab emergency"
+            onclick="showTab('emergencies', this)">
+
+      Emergencies
+      <span class="modern-badge red">
+        {{ grouped_emergencies|length }}
+      </span>
+
+    </button>
+
+  </div>
+
+  <!-- REQUESTS -->
+
+  <div id="tab-requests" class="tab-content active">
+
+    {% for unit in house_units %}
+      {% set unit_reqs = grouped_requests.get(unit[1], []) %}
+      {% if unit_reqs %}
+
+      <div class="modern-accordion">
+
+        <div class="modern-unit-header"
+             onclick="toggleUnit('req-{{ unit[1] | replace('-','') }}')">
+
+          <span>
+            House {{ unit[1] }}
+          </span>
+
+          <span class="unit-count">
+            {{ unit_reqs|length }} item(s) ▾
+          </span>
+
+        </div>
+
+        <div id="req-{{ unit[1] | replace('-','') }}"
+             class="unit-body">
+
+          {% for r in unit_reqs %}
+
+          <div class="modern-card">
+
+            <div class="record-top">
+
+              <div>
+                <div class="record-name">
+                  {{ r[6] }}
+                </div>
+
+                <div class="record-type">
+                  {{ r[1] }}
+                </div>
+              </div>
+
+              <span class="status-badge status-{{ r[4]|lower|replace(' ','') }}">
+                {{ r[4] }}
+              </span>
+
+            </div>
+
+            {% if r[2] %}
+            <div class="record-detail">
+              {{ r[2] }}
+            </div>
+            {% endif %}
+
+            <div class="record-detail">
+              Delivery: {{ r[3] }}
+            </div>
+
+            <div class="record-time">
+              {{ r[5] }}
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('update_status') }}"
+                  class="modern-form">
+
+              <input type="hidden"
+                     name="table"
+                     value="file_requests">
+
+              <input type="hidden"
+                     name="record_id"
+                     value="{{ r[0] }}">
+
+              <select name="status">
+
+                <option value="Pending"
+                  {% if r[4]=='Pending' %}selected{% endif %}>
+                  Pending
+                </option>
+
+                <option value="In Progress"
+                  {% if r[4]=='In Progress' %}selected{% endif %}>
+                  In Progress
+                </option>
+
+                <option value="Ready"
+                  {% if r[4]=='Ready' %}selected{% endif %}>
+                  Ready
+                </option>
+
+                <option value="Completed"
+                  {% if r[4]=='Completed' %}selected{% endif %}>
+                  Completed
+                </option>
+
+              </select>
+
+              <button type="submit">
+                Update
+              </button>
+
+            </form>
+
+          </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <!-- COMPLAINTS -->
+
+  <div id="tab-complaints" class="tab-content">
+
+    {% for unit in house_units %}
+      {% set unit_comp = grouped_complaints.get(unit[1], []) %}
+      {% if unit_comp %}
+
+      <div class="modern-accordion">
+
+        <div class="modern-unit-header"
+             onclick="toggleUnit('comp-{{ unit[1] | replace('-','') }}')">
+
+          <span>
+            House {{ unit[1] }}
+          </span>
+
+          <span class="unit-count">
+            {{ unit_comp|length }} item(s) ▾
+          </span>
+
+        </div>
+
+        <div id="comp-{{ unit[1] | replace('-','') }}"
+             class="unit-body">
+
+          {% for c in unit_comp %}
+
+          <div class="modern-card">
+
+            <div class="record-top">
+
+              <div>
+                <div class="record-name">
+                  {{ c[5] }}
+                </div>
+
+                <div class="record-type">
+                  {{ c[1] }}
+                </div>
+              </div>
+
+              <span class="status-badge status-{{ c[3]|lower|replace(' ','') }}">
+                {{ c[3] }}
+              </span>
+
+            </div>
+
+            <div class="record-detail">
+              {{ c[2] }}
+            </div>
+
+            <div class="record-time">
+              {{ c[4] }}
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('update_status') }}"
+                  class="modern-form">
+
+              <input type="hidden"
+                     name="table"
+                     value="complaints">
+
+              <input type="hidden"
+                     name="record_id"
+                     value="{{ c[0] }}">
+
+              <select name="status">
+
+                <option value="Received"
+                  {% if c[3]=='Received' %}selected{% endif %}>
+                  Received
+                </option>
+
+                <option value="Under Review"
+                  {% if c[3]=='Under Review' %}selected{% endif %}>
+                  Under Review
+                </option>
+
+                <option value="Resolved"
+                  {% if c[3]=='Resolved' %}selected{% endif %}>
+                  Resolved
+                </option>
+
+              </select>
+
+              <button type="submit">
+                Update
+              </button>
+
+            </form>
+
+          </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <!-- EMERGENCIES -->
+
+  <div id="tab-emergencies" class="tab-content">
+
+    {% for unit in house_units %}
+      {% set unit_emerg = grouped_emergencies.get(unit[1], []) %}
+      {% if unit_emerg %}
+
+      <div class="modern-accordion">
+
+        <div class="modern-unit-header emergency-header"
+             onclick="toggleUnit('emerg-{{ unit[1] | replace('-','') }}')">
+
+          <span>
+            House {{ unit[1] }}
+          </span>
+
+          <span class="unit-count">
+            {{ unit_emerg|length }} item(s) ▾
+          </span>
+
+        </div>
+
+        <div id="emerg-{{ unit[1] | replace('-','') }}"
+             class="unit-body">
+
+          {% for e in unit_emerg %}
+
+          <div class="modern-card">
+
+            <div class="record-top">
+
+              <div>
+                <div class="record-name">
+                  {{ e[7] }}
+                </div>
+
+                <div class="record-type emergency-type">
+                  {{ e[1] }}
+                </div>
+              </div>
+
+              <span class="status-badge status-{{ e[5]|lower|replace(' ','') }}">
+                {{ e[5] }}
+              </span>
+
+            </div>
+
+            <div class="record-detail">
+              {{ e[2] }}
+            </div>
+
+            <div class="record-detail">
+              Location: {{ e[3] }}
+            </div>
+
+            <div class="record-time">
+              {{ e[6] }}
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('update_status') }}"
+                  class="modern-form">
+
+              <input type="hidden"
+                     name="table"
+                     value="emergencies">
+
+              <input type="hidden"
+                     name="record_id"
+                     value="{{ e[0] }}">
+
+              <select name="status">
+
+                <option value="Reported"
+                  {% if e[5]=='Reported' %}selected{% endif %}>
+                  Reported
+                </option>
+
+                <option value="Responding"
+                  {% if e[5]=='Responding' %}selected{% endif %}>
+                  Responding
+                </option>
+
+                <option value="Resolved"
+                  {% if e[5]=='Resolved' %}selected{% endif %}>
+                  Resolved
+                </option>
+
+              </select>
+
+              <button type="submit">
+                Update
+              </button>
+
+            </form>
+
+          </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<script>
+
+function showTab(name, btn) {
+
+  document.querySelectorAll('.tab-content')
+    .forEach(t => t.classList.remove('active'));
+
+  document.querySelectorAll('.modern-tab')
+    .forEach(b => b.classList.remove('active'));
+
+  document.getElementById('tab-' + name)
+    .classList.add('active');
+
+  btn.classList.add('active');
+}
+
+function toggleUnit(id) {
+
+  const body = document.getElementById(id);
+
+  body.classList.toggle('open');
+}
+
+function toggleTheme() {
+
+  document.body.classList.toggle('light-mode');
+}
+
+</script>
+
+</body>
+</html>
