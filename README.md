@@ -74,7 +74,7 @@ The application expects a MySQL database named `barangay_db` with the following 
 
 ## Getting Started
 
-### Prerequisites ( see requirement.txt )
+### Prerequisites ( see requirements.txt )
 
 - Python 3.8+
 - MySQL Server
