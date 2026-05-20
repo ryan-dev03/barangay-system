@@ -94,7 +94,7 @@ The application expects a MySQL database named `barangay_db` with the following 
    ```
    or
     ```bash
-   pip install -r requirement.txt
+   pip install -r requirements.txt
    ```
 
 4. **Set up the database**
