@@ -1,4 +1,4 @@
-# 🏘️ Barangay Management System
+# Barangay Management System
 
 A web-based barangay management system built with **Flask** and **MySQL** that allows residents to submit requests, complaints, and emergency reports through QR code-linked unit pages, with an admin dashboard for monitoring and status management.
 
@@ -7,18 +7,18 @@ A web-based barangay management system built with **Flask** and **MySQL** that a
 ## Features
 
 ### Member (Resident) Portal
-- **QR Code Access** — Each house unit has a unique QR code that links directly to its login/registration page
-- **Registration & Login** — Residents register and log in under their assigned house unit
-- **File Requests** — Submit requests for barangay documents (e.g., barangay clearance, certificates) with a delivery address
-- **Complaints** — File complaints by type with a description
-- **Emergency Reports** — Report emergencies with type, description, location, and contact number
-- **My Submissions** — View a personal history of all submitted requests, complaints, and emergencies with their statuses
+- **QR Code Access** - Each house unit has a unique QR code that links directly to its login/registration page
+- **Registration & Login** - Residents register and log in under their assigned house unit
+- **File Requests** - Submit requests for barangay documents (e.g., barangay clearance, certificates) with a delivery address
+- **Complaints** - File complaints by type with a description
+- **Emergency Reports** - Report emergencies with type, description, location, and contact number
+- **My Submissions** - View a personal history of all submitted requests, complaints, and emergencies with their statuses
 
 ### Admin Portal
-- **Secure Login** — Admin-only access to the dashboard
-- **Dashboard** — View all file requests, complaints, and emergencies grouped by house unit
-- **Status Management** — Update the status of any submission (e.g., pending → resolved)
-- **QR Codes Page** — Access generated QR codes for each house unit
+- **Secure Login** - Admin-only access to the dashboard
+- **Dashboard** - View all file requests, complaints, and emergencies grouped by house unit
+- **Status Management** - Update the status of any submission (e.g., pending → resolved)
+- **QR Codes Page** - Access generated QR codes for each house unit
 
 ---
 
@@ -63,12 +63,12 @@ barangay-system/
 
 The application expects a MySQL database named `barangay_db` with the following tables:
 
-- **`admins`** — Admin accounts (`id`, `username`, `password`)
-- **`house_units`** — Registered house units (`id`, `unit_number`)
-- **`members`** — Resident accounts (`id`, `house_unit_id`, `full_name`, `username`, `password_hash`)
-- **`file_requests`** — Document requests (`id`, `member_id`, `file_type`, `details`, `delivery_address`, `status`, `created_at`)
-- **`complaints`** — Resident complaints (`id`, `member_id`, `complaint_type`, `description`, `status`, `created_at`)
-- **`emergencies`** — Emergency reports (`id`, `member_id`, `emergency_type`, `description`, `location`, `contact_number`, `status`, `created_at`)
+- **`admins`** - Admin accounts (`id`, `username`, `password`)
+- **`house_units`** - Registered house units (`id`, `unit_number`)
+- **`members`** - Resident accounts (`id`, `house_unit_id`, `full_name`, `username`, `password_hash`)
+- **`file_requests`** - Document requests (`id`, `member_id`, `file_type`, `details`, `delivery_address`, `status`, `created_at`)
+- **`complaints`** - Resident complaints (`id`, `member_id`, `complaint_type`, `description`, `status`, `created_at`)
+- **`emergencies`** - Emergency reports (`id`, `member_id`, `emergency_type`, `description`, `location`, `contact_number`, `status`, `created_at`)
 
 ---
 
