@@ -74,7 +74,7 @@ The application expects a MySQL database named `barangay_db` with the following 
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites ( see requirement.txt )
 
 - Python 3.8+
 - MySQL Server
@@ -92,8 +92,12 @@ The application expects a MySQL database named `barangay_db` with the following 
    ```bash
    pip install flask flask-mysqldb werkzeug qrcode
    ```
+   or
+    ```bash
+   pip install -r requirement.txt
+   ```
 
-3. **Set up the database**
+4. **Set up the database**
 
    Create the MySQL database and user:
    ```sql
@@ -105,7 +109,7 @@ The application expects a MySQL database named `barangay_db` with the following 
 
    Then create the required tables (see [Database Schema](#database-schema) above).
 
-4. **Configure the app** *(optional)*
+5. **Configure the app** *(optional)*
 
    Database credentials are set directly in `app.py`. Update these if your setup differs:
    ```python
@@ -116,12 +120,12 @@ The application expects a MySQL database named `barangay_db` with the following 
    ```
    > ⚠️ For production, move credentials to environment variables or a config file.
 
-5. **Generate QR codes for house units**
+6. **Generate QR codes for house units**
    ```bash
    python qr_gen.py
    ```
 
-6. **Run the application**
+7. **Run the application**
    ```bash
    python app.py
    ```
